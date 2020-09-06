@@ -69,9 +69,7 @@ class Dijk2 {
         for (int i = 0; i < distance.length; i++) {
             System.out.println(distance[i]);
         }
-
     }
-
 }
 
 

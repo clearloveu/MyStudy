@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-public class Main {
+public class Wangyi1 {
     // 3 10 0 1 0 -1 1 1 1 1 1 -1 0 1 2 1 2 -1 3 1 3 1     2 3 1 3 1    8 0 1 0 1 3 1 3 1 1 1 1 1 2 1 0 1
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);

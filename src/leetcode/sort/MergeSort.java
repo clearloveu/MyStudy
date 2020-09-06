@@ -15,6 +15,7 @@ public class MergeSort {
     public static void mergeSort(int [] a,int start,int end){
         if(start<end){//当子序列中只有一个元素时结束递归
             int mid=(start+end)/2;//划分子序列
+            // 这里一定是mid而不是mid-1，因为mid可能等于start，如果选择mid-1，则会出现问题
             mergeSort(a, start, mid);//对左侧子序列进行递归排序
             mergeSort(a, mid+1, end);//对右侧子序列进行递归排序
             merge(a, start, mid, end);//合并
