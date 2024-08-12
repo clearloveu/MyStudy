@@ -24,6 +24,29 @@ package leetcode;
  *
  */
 public class Test55 {
+    // 动态规划
+    private static boolean canJump2(int[] nums) {
+        if(nums.length == 1) return true;
+        if(nums.length == 0 || nums[0] <= 0) return false;
+        boolean[] dp = new boolean[nums.length+1];
+        dp[1] = true;
+        for (int i = 2; i < nums.length+1; i++) {
+            for (int j = 1; j < i;j++) {
+                // 对于i这个位置，只要前i-1个位置，有能跳过来的就行
+                if (nums[j-1] +j >= i) {
+                    dp[i] = dp[i] || dp[j];
+                }
+            }
+        }
+        return  dp[nums.length];
+    }
+
+
+
+
+
+
+    // 回溯
     private static boolean canJump(int[] nums) {
         boolean flag = false;
         //特例,数组长度是1，自然成立

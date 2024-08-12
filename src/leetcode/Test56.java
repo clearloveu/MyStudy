@@ -1,8 +1,7 @@
 package leetcode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author zg
@@ -25,6 +24,64 @@ import java.util.List;
  *
  */
 public class Test56 {
+    // 2024.5.24
+    private static int[][] merge2(int[][] intervals) {
+        List<List<Integer>> list = new ArrayList<>();
+        for (int i = 0; i < intervals.length; i++) {
+            List<Integer> temp = new ArrayList<>();
+            temp.add(intervals[i][0]);
+            temp.add(0);
+            temp.add(i);
+            list.add(temp);
+            List<Integer> temp2 = new ArrayList<>();
+            temp2.add(intervals[i][1]);
+            temp2.add(1);
+            temp2.add(i);
+            list.add(temp2);
+        }
+        List<List<Integer>> sortList = list.stream().sorted((a, b) -> {
+            if (a.get(0) > b.get(0)) return 1;
+            else if (a.get(0) < b.get(0)) return -1;
+            else if (a.get(1) > b.get(1)) return 1;
+            else if (a.get(1) < b.get(1)) return -1;
+            else return 0;
+        }).collect(Collectors.toList());
+        List<List<Integer>> res = new ArrayList<>();
+        int start = Integer.MAX_VALUE;
+        int right = 0;
+        Set<Integer> qujianIndex = new HashSet<>();
+        while (right < sortList.size()) {
+            List<Integer> integers = sortList.get(right);
+            if (integers.get(1) == 0) {
+                qujianIndex.add(integers.get(2));
+                start = Math.min(start, integers.get(0));
+            } else {
+                qujianIndex.remove(integers.get(2));
+                if (qujianIndex.isEmpty()) {
+                    List<Integer> objects = new ArrayList<>();
+                    res.add(objects);
+                    objects.add(start);
+                    objects.add(integers.get(0));
+                    start = Integer.MAX_VALUE;
+                }
+            }
+            right++;
+        }
+        int[][] ress = new int[res.size()][2];
+        for (int i = 0; i < res.size(); i++) {
+            ress[i][0] = res.get(i).get(0);
+            ress[i][1] = res.get(i).get(1);
+        }
+        return ress;
+    }
+
+
+
+
+
+
+
+
     private static int[][] merge(int[][] intervals) {
 
         //类似于插入排序的思想，在前面已经有序的区间中寻找合适的位置，区别是要注意区间合并，有时会合并好几个区间
@@ -147,7 +204,7 @@ public class Test56 {
         int[][] intervals = {{1,3},{2,6},{8,10},{15,18}};
         int[][] intervals2 = {{1,4},{0,0}};
         int[][] intervals3 = {{2,3},{4,6},{5,7},{3,4}};
-        int[][] answers = merge(intervals3);
+        int[][] answers = merge2(intervals);
         System.out.println(Arrays.deepToString(answers));
     }
 }

@@ -13,7 +13,7 @@ public class twoSearch {
         int right = nums.length - 1;
 
         while(left <= right) {  // 注意点
-            int mid = (right + left) / 2;
+            int mid = ((right - left) >> 1) + left;
             if(nums[mid] == target)
                 return mid;
             else if (nums[mid] < target)
@@ -34,7 +34,7 @@ public class twoSearch {
         int right = nums.length; // 注意点1
 
         while (left < right) {    //注意点2
-            int mid = (left + right) / 2;
+            int mid = ((right - left) >> 1) + left;
             if (nums[mid] >= target) {  // 注意点3
                 right = mid;
             } else if (nums[mid] < target) {
@@ -53,7 +53,7 @@ public class twoSearch {
         int left = 0, right = nums.length;
 
         while (left < right) {
-            int mid = (left + right) / 2;
+            int mid = ((right - left) >> 1) + left;
             if (nums[mid] == target) {
                 // 这里为什么不是像上面一样是left = mid呢？因为(left + right) /2 永远到不了right，
                 // 所以让left+1，最后再回过来判断left-1是不是target

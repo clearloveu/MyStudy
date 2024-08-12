@@ -1,9 +1,6 @@
 package leetcode;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author zg
@@ -63,6 +60,7 @@ public class Test17 {
 
 
     public static void main(String[] args) {
+        Arrays.sort(args);
         String digits = "23";
         List<String> list = letterCombinations(digits);
         for (String temp: list) {

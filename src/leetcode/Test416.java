@@ -1,5 +1,7 @@
 package leetcode;
 
+import java.util.Arrays;
+
 /**
  * @author zg
  * @create 2020-02-13 16:45
@@ -25,7 +27,29 @@ package leetcode;
  *
  */
 public class Test416 {
-    private boolean canPartition(int[] nums) {
+
+    public boolean canPartition(int[] nums) {
+        int sum = Arrays.stream(nums).reduce((a, b) -> a+ b).orElse(-1);
+        if(sum < 0 || (sum & 1) == 1) return false;
+        sum = sum >> 1;
+
+        boolean[][] dp = new boolean[nums.length + 1][sum +1];
+        dp[0][0] = true;
+        for(int i = 1;i <nums.length +1;i++) {
+            for(int j = 1;j<sum+1;j++) {
+                if(j < nums[i-1]) dp[i][j] = dp[i-1][j];
+                else {
+                    dp[i][j] = dp[i-1][j] || dp[i-1][j-nums[i-1]];
+                }
+            }
+        }
+        return dp[nums.length][sum];
+    }
+
+
+
+
+    private boolean canPartition2(int[] nums) {
         //特例
         if(nums.length==1) return false;
 
@@ -69,5 +93,10 @@ public class Test416 {
         return false;
         //细节：，0/1背包问题中，二维dp变成一维dp，产生的影响是倒序，因为这里共享一维dp，在更新第i次循环时，它会在第i-1次循环产生的
         // dp上直接修改数值，但是在第i次循环中又需要第i-1次循环的dp数组，所以这里需要考虑怎么才能在更新共享dp数组的同时又不影响接下来的判断，答案是倒序。
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {1,5,11,5};
+        new Test416().canPartition(nums);
     }
 }

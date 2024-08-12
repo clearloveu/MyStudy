@@ -15,45 +15,6 @@ package leetcode;
  *
  */
 public class Test4 {
-//    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
-//
-//        int len_s1 = nums1.length;
-//        int len_s2 = nums2.length;
-//
-//        int midIndex = (int) Math.ceil(((len_s1+len_s2)/2.0));
-//
-//        int mid_s1 = len_s1/2-1 ;
-//        int mid_s2 = midIndex-mid_s1-2;
-//
-//        int[] nums1_1 = new int[len_s1+1];
-//        int[] nums2_2 = new int[len_s2+1];
-//
-//        for (int i =0 ; i<len_s1;i++){
-//            nums1_1[i] = nums1[i];
-//        }
-//        nums1_1[len_s1] = Integer.MAX_VALUE;
-//        for (int i =0 ; i<len_s2;i++){
-//            nums2_2[i] = nums2[i];
-//        }
-//        nums2_2[len_s2] = Integer.MAX_VALUE;
-//
-//
-//        while(nums1_1[mid_s1]<nums2_2[mid_s2+1] && nums2_2[mid_s2]<nums1_1[mid_s1+1]){
-//            if (nums1_1[mid_s1]>nums2_2[mid_s2+1]){
-//                mid_s1 = mid_s1 - (len_s1-mid_s1)/2;
-//                mid_s2 = midIndex - mid_s1 ;
-//            }else {
-//                mid_s1 = mid_s1 + (len_s1-mid_s1)/2;
-//                mid_s2 = midIndex - mid_s1 ;
-//            }
-//        }
-//        double answer ;
-//        if ((len_s1+len_s2)%2 == 0){
-//            answer = (Math.max(nums1_1[mid_s1],nums2_2[mid_s2])+Math.min(nums1_1[mid_s1+1],nums2_2[mid_s2+1]))/2.0;
-//        }
-//
-//        return 0.0;
-//    }
 
 
     //官方解答，非自己的代码

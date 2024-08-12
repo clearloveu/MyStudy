@@ -3,7 +3,6 @@ package skills;
 import java.text.DecimalFormat;
 
 /**
- * @author zg
  * @create 2020-04-07 16:27
  *
  * java保留小数点后两位

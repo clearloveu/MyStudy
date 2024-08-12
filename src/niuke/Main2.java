@@ -1,77 +1,62 @@
 package niuke;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.math.BigInteger;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
 
 public class Main2 {
+    private static BigInteger ans;
+    private static int[] nums;
+    private static int k;
+
     public static void main(String[] args) {
-        int[] arr = {1,1,1,0,0,0,1,1,1,1,0};
-        System.out.println(GetMaxConsecutiveOnes(arr, 2));
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        k = scanner.nextInt();
+        nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = scanner.nextInt();
+        }
+        ans = new BigInteger("0");
+//        findAll(line);
 
+        System.out.println(ans.toString());
     }
 
-    public static int GetMaxConsecutiveOnes (int[] arr, int k) {
-        List<Integer> ver = new ArrayList<>();
-        List<Integer> distance = new ArrayList<>();
-        int left = -1;
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i]!=0) {
-                left = i;
-                break;
-            }
+    private static void findAll(String line){
+        int length = 2;
+        while (length <= line.length()){
+            // 回溯法寻找该长度下的所有子序列
+            huiSu(length, line, new StringBuilder(), 0);
+            length++;
         }
-        int right = -1;
-        for (int i = arr.length-1; i >= 0 ; i--) {
-            if (arr[i]!=0){
-                right = i;
-                break;
-            }
-        }
-        boolean isOne = true;
-        int len = 0;
-        for (int i = left; i <=right ; i++) {
-            if (isOne) {
-                if (arr[i] == 1){
-                    len++;
-                } else {
-                    ver.add(len);
-                    isOne = false;
-                    len = 1;
-                }
-            } else {
-                if (arr[i] == 0){
-                    len++;
-                } else {
-                    distance.add(len);
-                    isOne = true;
-                    len = 1;
-                }
-            }
-        }
-        ver.add(len);
-        distance.add(arr.length - right);
-        // 暴力
-        int max = Math.max(ver.get(0) + k, ver.get(ver.size()-1) + k);
-        for (int i = 0; i < ver.size(); i++) {
-            int temp = conculate(ver, distance, i, k);
-            max = Math.max(max, temp);
-        }
-        return max;
     }
 
-    private static int conculate(List<Integer> ver, List<Integer> distance, int index, int k) {
-        int res = 0;
-        for (int i = index; i < ver.size(); i++) {
-            res += ver.get(index);
-            k -= distance.get(index);
-            if (k>0) res +=distance.get(index);
-            else {
-                res += k+distance.get(index);
-                break;
-            }
+    private static void huiSu(int length, String line, StringBuilder seq, int index){
+        boolean flag = judge(seq.toString());
+        if(!flag) return;
+
+        if (seq.length() == length) {
+            ans = ans.add(new BigInteger("1"));
+//            System.out.println(seq.toString());
+            return;
+        } else if (seq.length() > length) return;
+
+        for (int i = index; i < line.length(); i++) {
+            seq.append(line.charAt(i));
+            huiSu(length, line, seq, i+1);
+            seq.deleteCharAt(seq.length()-1);
         }
-        return res;
     }
 
+    private static boolean judge(String temp){
+        Set<Character> set = new HashSet<>();
+        for (int i = 0; i < temp.length(); i++) {
+            char currentChar = temp.charAt(i);
+            if (set.contains(currentChar)) return false;
+            set.add(currentChar);
+        }
+        return true;
+    }
 }

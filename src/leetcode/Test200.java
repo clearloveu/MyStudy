@@ -1,5 +1,11 @@
 package leetcode;
 
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * @author zg
  * @create 2020-01-10 18:07
@@ -31,6 +37,45 @@ package leetcode;
  *
  */
 public class Test200 {
+    public int numIslands2(char[][] grid) {
+        int res = 0;
+        for(int i = 0; i < grid.length; i ++) {
+            for(int j = 0;j < grid[0].length; j++) {
+                if(grid[i][j] == '1') {
+                    res++;
+                    findArea(grid, i, j);
+                }
+            }
+        }
+        return res;
+    }
+
+    public void findArea(char[][] grid, int i, int j) {
+        Deque<List<Integer>> queue = new LinkedList<>();
+        queue.add(Stream.of(i,j).collect(Collectors.toList()));
+        while(!queue.isEmpty()) {
+            List<Integer> list = queue.pop();
+            int thisI = list.get(0);
+            int thisJ = list.get(1);
+            grid[thisI][thisJ] = '0';
+            // 向右
+            if(thisJ < grid[0].length-1 && grid[thisI][thisJ + 1] == '1') {
+                queue.add(Stream.of(thisI,thisJ+1).collect(Collectors.toList()));
+            }
+            // 向下
+            if(thisI < grid.length-1 && grid[thisI+1][thisJ] == '1') {
+                queue.add(Stream.of(thisI+1,thisJ).collect(Collectors.toList()));
+            }
+            // 向左
+            if(thisJ > 0 && grid[thisI][thisJ - 1] == '1') {
+                queue.add(Stream.of(thisI,thisJ-1).collect(Collectors.toList()));
+            }
+            // 向上
+            if(thisI > 0 && grid[thisI-1][thisJ] == '1') {
+                queue.add(Stream.of(thisI-1,thisJ).collect(Collectors.toList()));
+            }
+        }
+    }
     //思路：广度优先、深度优先算法
     private int numIslands(char[][] grid) {
         int count = 0;

@@ -1,9 +1,6 @@
 package leetcode;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author zg
@@ -37,10 +34,32 @@ import java.util.Set;
  *
  */
 public class Test139 {
+    Map<Integer, Boolean> dict = new HashMap<>();
+    public boolean wordBreak2(String s, List<String> wordDict) {
+        return inner(s,wordDict,0);
+    }
+
+    private boolean inner(String s, List<String> wordDict, int index) {
+        if(index >= s.length()) return true;
+        if (dict.get(index) != null) return dict.get(index);
+        String subString = s.substring(index);
+        for(int i =0;i<wordDict.size();i++) {
+            String temp = wordDict.get(i);
+            if (subString.startsWith(temp) && inner(s,wordDict,index+ temp.length())) {
+                return true;
+            } else {
+                dict.put(index, false);
+            }
+
+        }
+        return false;
+    }
+
     static Set<String> strings;
 
     //普通回溯+递归：因为会遍历每种情况，所以时间复杂度为O(n的n次方)，需要加备忘录memo
     private static boolean wordBreak(String s, List<String> wordDict) {
+
         boolean flag ;
 
         //将List<String>变成HashSet，增加查询效率
@@ -90,7 +109,7 @@ public class Test139 {
         wordDict2.add("sand");
         wordDict2.add("and");
         wordDict2.add("cat");
-        System.out.println(wordBreak(s,wordDict));
+        System.out.println(new Test139().wordBreak2(s,wordDict2));
     }
 
 

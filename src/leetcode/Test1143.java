@@ -28,6 +28,7 @@ package leetcode;
 public class Test1143 {
 
     public int longestCommonSubsequence(String text1, String text2) {
+
         //dp,字符串的子串问题（动态规划思路）
         int[][] dp = new int[text1.length()+1][text2.length()+1];
         //初始化,初始值默认为0

@@ -19,6 +19,29 @@ import leetcode.utils.ListNode;
  * 输出: 1->1->2->3->4->4->5->6
  */
 public class Test23 {
+    public static ListNode mergeKLists2(ListNode[] lists) {
+        ListNode head = new ListNode(1);
+        ListNode node1 = head;
+        while(true) {
+            int small = -1;
+            for(int i = 0;i<lists.length;i++) {
+                ListNode ii =  lists[i];
+                if (ii == null) continue;
+                if (small == -1) {
+                    small = i;
+                } else {
+                    if(lists[small].val > ii.val) {
+                        small = i;
+                    }
+                }
+            }
+            if (small == -1) break;
+            head.next = lists[small];
+            head = head.next;
+            lists[small] = lists[small].next;
+        }
+        return node1.next;
+    }
     private ListNode mergeKLists(ListNode[] lists) {
         // 哨兵节点
         ListNode head = new ListNode(0);
@@ -69,6 +92,6 @@ public class Test23 {
         ListNode[] listNodes = new ListNode[2];
         listNodes[0] = listNode1;
         listNodes[1] = listNode3;
-        new Test23().mergeKLists(listNodes);
+        new Test23().mergeKLists2(listNodes);
     }
 }

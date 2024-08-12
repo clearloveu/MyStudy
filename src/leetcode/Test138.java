@@ -25,6 +25,42 @@ import java.util.Map;
  *
  */
 public class Test138 {
+    public static Node copyRandomList2(Node head) {
+        if(head == null) return null;
+        Node temp = head;
+        while(temp != null) {
+            Node node = new Node(temp.val);
+            Node next = temp.next;
+            temp.next = node;
+            node.next = next;
+            temp = temp.next.next;
+        }
+        temp = head;
+        while(temp!=null) {
+            Node newNode = temp.next;
+            if(temp.random != null) {
+                newNode.random = temp.random.next;
+            }
+            Node newTemp = temp.next.next;
+            temp = newTemp;
+        }
+        temp = head;
+        Node newNodeStart = temp.next;
+        Node newTemp = newNodeStart;
+        while (temp != null) {
+            temp.next = newTemp.next;
+            if (newTemp.next != null) {
+                newTemp.next = newTemp.next.next;
+            }
+            else {
+                newTemp.next = null;
+            }
+            temp = temp.next;
+            newTemp = newTemp.next;
+        }
+        return newNodeStart;
+    }
+
     private static Node copyRandomList(Node head) {
         if (head==null) return null;
         //先构造新的列表的表头
@@ -79,7 +115,7 @@ public class Test138 {
         node4.random = node3;
         node5.random = node1;
 
-        Node head = copyRandomList(node1);
+        Node head = copyRandomList2(node1);
         while (head!=null) {
             System.out.print(head.val+" ");
             head = head.next;

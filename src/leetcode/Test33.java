@@ -22,6 +22,31 @@ package leetcode;
  *
  */
 public class Test33 {
+    public static int search2(int[] nums, int target) {
+        int left = 0;
+        int right = nums.length-1;
+        while (left <= right) {
+            int mid = ((right - left) >>1) + left;
+            int midValue = nums[mid];
+            if(midValue == target) return mid;
+            // [3,1]的特例
+            if (nums[mid] == nums[left]) {
+                left = left +1;
+                continue;
+            }
+            boolean isSort = nums[mid] > nums[left];
+            // 简单起见，只判断顺序的那一边
+            if(isSort) {
+                if(nums[left] <=target && midValue > target) right = mid-1;
+                else left = mid +1;
+            } else {
+                if(nums[right] >= target && midValue < target) left = mid +1;
+                else right = mid-1;
+            }
+        }
+        return -1;
+    }
+
     public static  int search(int[] nums, int target) {
         int answer = -1;
 
@@ -75,10 +100,11 @@ public class Test33 {
         int[] nums = {4,5,6,7,0,1,2};
         int target = 0;
         int[] nums2 = {1,3};
-        int target2 = 3;
+        int target2 = 1;
         int[] nums3 = {3,1};
         int[] nums4 = {4,5,6,7,0,1,2};
-        System.out.println(search(nums4,target2));
+        int[] nums5 = {5,1,3};
+        System.out.println(search2(nums3,target2));
 
     }
 }

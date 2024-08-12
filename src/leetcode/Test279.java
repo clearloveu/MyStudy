@@ -1,6 +1,7 @@
 package leetcode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,6 +24,73 @@ import java.util.List;
  *
  */
 public class Test279 {
+    int INF = -1;
+    public int numSquares4(int n) {
+        // 预处理出所有可能用到的「完全平方数」
+        List<Integer> list = new ArrayList<>();
+        int idx = 1;
+        while (idx * idx <= n) {
+            list.add(idx * idx);
+            idx++;
+        }
+
+        // f[i][j] 代表考虑前 i 个物品，凑出 j 所使用到的最小元素个数
+        int len = list.size();
+        int[][] f = new int[len+1][n + 1];
+
+        // 处理第一个数的情况
+        for (int j = 0; j <= n; j++) {
+            int t = list.get(0);
+            int k = j / t;
+            if (k * t == j) { // 只有容量为第一个数的整数倍的才能凑出
+                f[1][j] = k;
+            } else { // 其余则为无效值
+                f[1][j] = INF;
+            }
+        }
+        System.out.println(Arrays.deepToString(f));
+
+        // 处理剩余数的情况
+        for (int i = 2; i <= len; i++) {
+            int t = list.get(i-1);
+            for (int j = 0; j <= n; j++) {
+                // 对于不选第 i 个数的情况
+                f[i][j] = f[i - 1][j];
+                // 对于选 k 次第 i 个数的情况
+                for (int k = 1; k * t <= j; k++) {
+                    // 能够选择 k 个 t 的前提是剩余的数字 j - k * t 也能被凑出
+                    // 使用 0x3f3f3f3f 作为最大值（预留累加空间）可以省去该判断
+                    if (f[i - 1][j - k * t] != INF) {
+                        f[i][j] = Math.min(f[i][j], f[i - 1][j - k * t] + k);
+                    }
+                }
+
+            }
+        }
+        return f[len][n];
+    }
+
+    // 完全背包优化
+    public int numSquares2(int n) {
+        int[] dp = new int[n+1];
+        // dp[i] = dp[i-x] +1;
+        int index = 1;
+        List<Integer> list = new ArrayList<>();
+        for(int i = 1;i<=n;i++) {
+            dp[i] = Integer.MAX_VALUE;
+            if(i == index*index) {
+                list.add(index*index);
+                index++;
+            }
+            for(int temp :list) {
+                // 最优的是，对于当前值，肯定由前x个值推导过来
+                dp[i] = Math.min(dp[i-temp] + 1, dp[i]);
+            }
+        }
+        return dp[n];
+    }
+
+
     private int numSquares(int n) {
         //先找到小于等于n的所有完全平方数
         List<Integer> squ = new ArrayList<>();
@@ -66,7 +134,7 @@ public class Test279 {
     }
 
     public static void main(String[] args) {
-        int answer = new Test279().numSquares(12);
+        int answer = new Test279().numSquares4(12);
         System.out.println(answer);
     }
 }

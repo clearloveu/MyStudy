@@ -1,6 +1,8 @@
 package leetcode;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author zg
@@ -18,7 +20,21 @@ import java.util.*;
  *
  */
 public class Test236 {
-    private static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    // 2024.06.10
+    private static TreeNode father;
+    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        father = null;
+        Set<TreeNode> set = Stream.of(p, q).collect(Collectors.toSet());
+        findChild(root, set);
+        return father;
+    }
+    private static int findChild(TreeNode node, Set<TreeNode> set) {
+        if (node == null) return 0;
+        int res = findChild(node.left, set) + findChild(node.right, set) + (set.contains(node) ? 1 :0);
+        if(res > 1 && father == null) father = node;
+        return res > 0?1 :0;
+    }
+    private static TreeNode lowestCommonAncestor2(TreeNode root, TreeNode p, TreeNode q) {
         //层次遍历,把二叉树的数据转化为列表，其中列表中0代表该二叉树位置是null，>1代表有值，但不是p或q，-1、-2代表p或q的位置
         //再在列表中寻找对应的父节点
         //列表中的数字和树节点相对应，用HashMap存储
@@ -96,7 +112,7 @@ public class Test236 {
         treeNode2.right = treeNode5;
         treeNode3.left = treeNode6;
         treeNode3.right = treeNode7;
-        TreeNode treeNode = lowestCommonAncestor(treeNode1,treeNode5,treeNode2);
+        TreeNode treeNode = lowestCommonAncestor2(treeNode1,treeNode5,treeNode2);
         System.out.println(treeNode.val);
     }
 
